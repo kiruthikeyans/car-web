@@ -50,7 +50,7 @@ car-web/
 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/car-web.git
+
 ```
 
 2. Open the project folder
