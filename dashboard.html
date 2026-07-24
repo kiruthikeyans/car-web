@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        body { background: #f9f9f9; }
+        nav { background: white; border-bottom: 2px solid #f0f0f0; }
+        .glass { background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border: 1px solid rgba(225, 6, 0, 0.1); }
+        .sidebar { position: fixed; left: -350px; top: 0; width: 350px; height: 100vh; background: white; box-shadow: 4px 0 20px rgba(225, 6, 0, 0.1); z-index: 1000; transition: left 0.4s; overflow-y: auto; }
+        .sidebar.open { left: 0; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+        .btn-red { background: linear-gradient(135deg, #E10600, #C50500); color: white; transition: all 0.3s; }
+        .btn-red:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(225, 6, 0, 0.3); }
+        .card-hover { transition: all 0.3s; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(225, 6, 0, 0.1); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-car text-[#E10600] text-2xl"></i>
+                    <span class="text-2xl font-bold">Car web</span>
+                </div>
+                <div class="hidden md:flex gap-8 items-center">
+                    <a href="index.html" class="hover:text-[#E10600] font-semibold transition">Home</a>
+                    <a href="about.html" class="hover:text-[#E10600] font-semibold transition">About</a>
+                    <a href="car-details.html" class="hover:text-[#E10600] font-semibold transition">Details</a>
+                    <a href="contact.html" class="hover:text-[#E10600] font-semibold transition">Contact</a>
+                    <button id="menuBtn" class="text-2xl hover:text-[#E10600]"><i class="fas fa-bars"></i></button>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+ 
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+    <div id="sidebar" class="sidebar">
+        <div class="p-8">
+            <button id="closeSidebar" class="text-2xl text-[#E10600] mb-8"><i class="fas fa-times"></i></button>
+            <div class="space-y-4">
+                <a href="dashboard.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-chart-line text-[#E10600]"></i> Dashboard</a>
+                <a href="cars.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-car text-[#E10600]"></i> Cars</a>
+                <a href="car-details.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-info-circle text-[#E10600]"></i> Car Details</a>
+                <a href="compare.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-scale-balanced text-[#E10600]"></i> Compare</a>
+                <a href="wishlist.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-heart text-[#E10600]"></i> Wishlist</a>
+                <a href="book-test-drive.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-calendar-check text-[#E10600]"></i> Book Test Drive</a>
+                <a href="bookings.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-ticket text-[#E10600]"></i> Bookings</a>
+                <a href="notifications.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-bell text-[#E10600]"></i> Notifications</a>
+                <a href="profile.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-user text-[#E10600]"></i> Profile</a>
+                <a href="settings.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-gear text-[#E10600]"></i> Settings</a>
+                <a href="about.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-building text-[#E10600]"></i> About</a>
+                <a href="contact.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 font-semibold"><i class="fas fa-envelope text-[#E10600]"></i> Contact</a>
+                <button onclick="logout()" class="w-full flex items-center gap-3 p-3 rounded-lg bg-red-50 text-[#E10600] hover:bg-red-100 font-semibold"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="bg-white border-b pt-24 pb-4 px-4">
+        <div class="max-w-7xl mx-auto">
+            <p class="text-gray-600"><i class="fas fa-home"></i> Home / <span class="text-[#E10600] font-semibold">Dashboard</span></p>
+        </div>
+    </div>
+
+
+    <section class="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold mb-2">Dashboard</h1>
+            <p class="text-red-100">Welcome to your AutoVista account</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+       
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="glass rounded-xl p-8 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Saved Cars</p>
+                            <p class="text-4xl font-bold mt-2">5</p>
+                        </div>
+                        <i class="fas fa-heart text-4xl text-[#E10600] opacity-20"></i>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-8 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Test Drives</p>
+                            <p class="text-4xl font-bold mt-2">2</p>
+                        </div>
+                        <i class="fas fa-calendar-check text-4xl text-[#E10600] opacity-20"></i>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-8 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Notifications</p>
+                            <p class="text-4xl font-bold mt-2">3</p>
+                        </div>
+                        <i class="fas fa-bell text-4xl text-[#E10600] opacity-20"></i>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-8 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Comparisons</p>
+                            <p class="text-4xl font-bold mt-2">1</p>
+                        </div>
+                        <i class="fas fa-scale-balanced text-4xl text-[#E10600] opacity-20"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-xl p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6">Recent Test Drive Bookings</h2>
+                <div class="space-y-4">
+                    <div class="border-l-4 border-[#E10600] pl-4 py-3">
+                        <p class="font-bold">Porsche 911 GT3 RS - July 25, 2024 at 2:00 PM</p>
+                        <p class="text-gray-600">Status: <span class="text-green-600 font-semibold">Confirmed</span></p>
+                    </div>
+                    <div class="border-l-4 border-[#E10600] pl-4 py-3">
+                        <p class="font-bold">Ferrari SF90 - July 28, 2024 at 10:00 AM</p>
+                        <p class="text-gray-600">Status: <span class="text-green-600 font-semibold">Pending</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-6">Your Favorite Cars</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass rounded-xl overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" class="w-full h-48 object-cover" />
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg">Lamborghini Revuelto</h3>
+                            <p class="text-gray-600">1001 HP • RS:656,000</p>
+                            <button class="btn-red w-full mt-4 py-2 rounded-lg font-semibold">View Details</button>
+                        </div>
+                    </div>
+                    <div class="glass rounded-xl overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1494976866556-6812c9d1c72e?auto=format&fit=crop&w=600&q=80" class="w-full h-48 object-cover" />
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg">Porsche 911 GT3 RS</h3>
+                            <p class="text-gray-600">520 HP • RS:308,000</p>
+                            <button class="btn-red w-full mt-4 py-2 rounded-lg font-semibold">View Details</button>
+                        </div>
+                    </div>
+                    <div class="glass rounded-xl overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1567818735868-e71b99932e29?auto=format&fit=crop&w=600&q=80" class="w-full h-48 object-cover" />
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg">Ferrari SF90 Stradale</h3>
+                            <p class="text-gray-600">986 HP • Rs:502,000</p>
+                            <button class="btn-red w-full mt-4 py-2 rounded-lg font-semibold">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-gray-900 text-white py-12 px-4 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <p> All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        };
+        document.getElementById('menuBtn')?.addEventListener('click', toggleSidebar);
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', toggleSidebar);
+        document.getElementById('closeSidebar')?.addEventListener('click', toggleSidebar);
+        sidebarOverlay?.addEventListener('click', toggleSidebar);
+        function logout() {
+            localStorage.removeItem('userEmail');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
